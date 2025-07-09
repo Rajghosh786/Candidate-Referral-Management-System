@@ -8,6 +8,15 @@ const connectingDB = require("./config/db")
 const userRouter = require("./routes/user.routes")
 const candidateRouter = require("./routes/candidate.routes")
 
+const allowedOrigins = [
+  "https://refeer-me.netlify.app",
+  "http://localhost:5173"                  
+];
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true 
+}));
+
 app.use("/user",userRouter)
 app.use("/candidate",candidateRouter)
 
