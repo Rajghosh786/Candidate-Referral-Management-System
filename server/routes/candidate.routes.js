@@ -52,11 +52,16 @@ const upload = multer({
 
 candidateRouter.post('/upload-resume', upload.single('resume'), async (req, res) => {
   try {
+    const originalName = req.file.originalname.replace(/\.[^/.]+$/, ""); // remove extension if any
+    const uniqueName = `${originalName}-${Date.now()}.pdf`;
+
     const result = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
           resource_type: 'raw',
           folder: 'resumes',
+          public_id: uniqueName, 
+          format: 'pdf',
         },
         (error, result) => {
           if (error) return reject(error);

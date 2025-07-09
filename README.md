@@ -88,6 +88,18 @@ npm install
 - Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
+### 3. Setup Cloudinary
+
+- after creating new account on Cloudinary by default, free/new accounts are blocked from directly delivering PDF files, resulting in an "untrusted" error when trying to view them inline
+- Log into Cloudinary Console
+
+- Go to Settings → Security
+
+- Locate "PDF and ZIP files delivery" section
+
+- Enable the option (toggle on)
+
+- Save your changes and accept any prompts
 
 ## Assumptions & Limitations
 

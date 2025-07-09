@@ -112,6 +112,9 @@ return (
             <p className="text-gray-600 mb-1">
               <strong>Phone:</strong> +91 {e.phone}
             </p>
+            <p className="text-gray-600 mb-1">
+              <strong>Job Title:</strong> {e.jobTitle}
+            </p>
             <p className="text-gray-600 mb-3">
             <strong>Status:</strong> {e.status}
 
