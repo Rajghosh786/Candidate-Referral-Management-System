@@ -111,7 +111,7 @@ candidateRouter.patch('/:id/status', verifyToken, async (req, res) => {
   try {
     const candidateId = req.params.id;
     const { status } = req.body;
-    console.log(candidateId,status)
+    // console.log(candidateId,status)
     const updatedCandidate = await candidateModel.findByIdAndUpdate(candidateId,{ status },{ new: true });
 
     if (!updatedCandidate) {

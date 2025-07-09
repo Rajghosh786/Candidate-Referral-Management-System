@@ -1,10 +1,13 @@
-import React, { useContext, useState,useEffect } from 'react'
+import React, { useContext, useState,useEffect,useRef } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
+import Spinner from "../components/Spinner"
 
 const ReferCandidate = () => {
   const [currentRefer, setCurrentRefer] = useState({ name: "", email: "", phone: "", jobTitle: "", resume: null })
+  const fileInputRef = useRef(null);
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
   function handleChange(e) {
     setCurrentRefer({ ...currentRefer, [e.target.name]: e.target.value })
@@ -26,6 +29,7 @@ const ReferCandidate = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setIsLoading(true);
 
     let resumeUrl = "";
 
@@ -53,6 +57,8 @@ const ReferCandidate = () => {
 
     alert("Candidate referred successfully");
     setCurrentRefer({ name: "", email: "", phone: "", jobTitle: "", resume: null });
+    fileInputRef.current.value = "";
+    setIsLoading(false);
   }
 
   useEffect(()=>{
@@ -146,16 +152,27 @@ const ReferCandidate = () => {
             type="file"
             accept="application/pdf"
             onChange={handleResumeUpload}
+            ref={fileInputRef}
             className="block w-full text-gray-600"
           />
         </div>
 
+      {isLoading ? (
+        <Spinner />
+      ) : (
         <button
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
         >
           Refer Now
         </button>
+      )}
+        {/* <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
+        >
+          Refer Now
+        </button> */}
       </form>
     </div>
   )
