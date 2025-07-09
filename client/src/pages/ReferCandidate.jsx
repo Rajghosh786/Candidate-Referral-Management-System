@@ -45,7 +45,7 @@ const ReferCandidate = () => {
       resume: resumeUrl,
     };
     const token = localStorage.getItem("token");
-    await axios.post("http://localhost:1305/candidate", referraldata, {
+    await axios.post(`${apiUrl}/candidate`, referraldata, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

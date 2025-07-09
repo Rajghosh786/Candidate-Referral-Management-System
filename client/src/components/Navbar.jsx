@@ -96,7 +96,7 @@ const Navbar = () => {
               >
                 Logout
               </button>
-              <span>{currentUser.firstName}{currentUser.lastName}</span>
+              {/* <span>{currentUser.firstName}{currentUser.lastName}</span> */}
               </div>
             )}
           </div>
