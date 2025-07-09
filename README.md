@@ -3,7 +3,8 @@
 A full-stack MERN application to manage employee referrals, allowing users to register, login, refer candidates, upload resumes, and track referral metrics.
 
 ---
-
+# Candidate Referral Management System
+- **Deployed Link:** https://refeer-me.netlify.app/
 ## Features Implemented
 
 - **User Authentication:** Register and login with JWT-based authentication.
@@ -103,7 +104,6 @@ npm install
 
 ## Assumptions & Limitations
 
-- **Resume Upload:** Only PDF files up to 3MB are allowed. After downloading a resume from Cloudinary, you may need to manually change the file extension to `.pdf` if it is missing.
 - **User Roles:** Only "user" and "admin" roles are supported, but admin features are not implemented yet.
 - **No Email Verification:** Registration does not send verification emails.
 - **No Password Reset:** There is no password reset functionality.
