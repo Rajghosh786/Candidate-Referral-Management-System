@@ -7,6 +7,7 @@ const Login = () => {
   const [loginUser, setLoginUser] = useState({ email: '', password: '' });
   const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useContext(AuthContext);
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   function handleChange(e) {
     setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
@@ -15,7 +16,7 @@ const Login = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const login = await axios.post('http://localhost:1305/user/login', loginUser);
+      const login = await axios.post(`${apiUrl}/user/login`, loginUser);
       if (login.data.msg === 'Login successful') {
         localStorage.setItem('token', login.data.token);
         localStorage.setItem('user', JSON.stringify({

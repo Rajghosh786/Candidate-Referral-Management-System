@@ -11,7 +11,7 @@ const Register = () => {
     password: '',
   });
   const navigate = useNavigate();
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   function handleChange(e) {
     setRegisterUser({ ...registerUser, [e.target.name]: e.target.value });
   }
@@ -19,7 +19,7 @@ const Register = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const register = await axios.post('http://localhost:1305/user/register', registerUser);
+      const register = await axios.post(`${apiUrl}/user/register`, registerUser);
       if (register.data.msg === 'user created successfully') {
         setRegisterUser({
           firstName: '',

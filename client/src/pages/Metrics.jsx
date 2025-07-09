@@ -5,11 +5,11 @@ import axios from "axios"
 const Metrics = () => {
     const { isLoggedIn,setIsLoggedIn } = useContext(AuthContext);
     const [metrics, setMetrics] = useState({totalReferred: 0,pending: 0,reviewed: 0,hired: 0,});
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   async function fullData() {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:1305/user/all-referral', {
+        const response = await axios.get(`${apiUrl}/user/all-referral`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMetrics(response.data);

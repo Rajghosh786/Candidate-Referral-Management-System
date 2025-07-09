@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext'
 const ReferCandidate = () => {
   const [currentRefer, setCurrentRefer] = useState({ name: "", email: "", phone: "", jobTitle: "", resume: null })
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   function handleChange(e) {
     setCurrentRefer({ ...currentRefer, [e.target.name]: e.target.value })
   }
@@ -33,7 +33,7 @@ const ReferCandidate = () => {
       const formData = new FormData();
       formData.append("resume", currentRefer.resume);
 
-      const res = await axios.post("http://localhost:1305/candidate/upload-resume", formData);
+      const res = await axios.post(`${apiUrl}/candidate/upload-resume`, formData);
       resumeUrl = res.data.url;
     }
 

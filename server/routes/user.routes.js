@@ -4,6 +4,7 @@ const userRouter = express.Router()
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
+const candidateModel = require("../models/candidate.model");
 const JWT_TOKEN = process.env.JWT_TOKEN
 
 const loginMiddleware = (req,res,next) =>{
@@ -24,8 +25,8 @@ userRouter.post("/login",loginMiddleware,async(req,res)=>{
         if(!result){
             return res.status(401).json({msg:"wrong password"})
         }
-        var token = jwt.sign({ userID: user._id,role:user.role }, JWT_TOKEN,{ expiresIn: '1h' });
-        return res.status(200).json({ msg: "Login successful",token});
+        var token = jwt.sign({ userID: user._id,role:user.role,name:user.firstName }, JWT_TOKEN,{ expiresIn: '1h' });
+        return res.status(200).json({ msg: "Login successful",token,firstName:user.firstName,lastName:user.lastName,email:user.email,phone:user.phone});
     } catch (error) {
         return res.status(500).json({ msg: "Server error", error: error.message });
     }
@@ -51,5 +52,57 @@ userRouter.post("/register",registerMiddleware,async(req,res)=>{
         res.status(500).json({ message: "Server error", error: error.message });
     }
 })
+
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ msg: "Authorization header missing" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ msg: "Token missing" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_TOKEN);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ msg: "Invalid or expired token", error: err.message });
+  }
+};
+
+userRouter.get("/all-referral", verifyToken, async (req, res) => {
+  const { userID } = req.user;
+  try {
+    const candidates = await candidateModel.find({ referredBy: userID });
+
+    const totalReferred = candidates.length;
+
+    let pending = 0;
+    let reviewed = 0;
+    let hired = 0;
+
+    candidates.forEach((candidate) => {
+      const status = candidate.status || "pending";
+      if (status === "pending") pending++;
+      else if (status === "reviewed") reviewed++;
+      else if (status === "hired") hired++;
+    });
+
+    res.status(200).json({
+      totalReferred,
+      pending,
+      reviewed,
+      hired,
+    });
+  } catch (error) {
+    console.error("Error fetching referrals:", error.message);
+    res.status(500).json({ error: "Failed to fetch referral data" });
+  }
+});
+
 
 module.exports = userRouter

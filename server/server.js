@@ -9,7 +9,7 @@ const userRouter = require("./routes/user.routes")
 const candidateRouter = require("./routes/candidate.routes")
 
 app.use("/user",userRouter)
-// app.use("/candidate",candidateRouter)
+app.use("/candidate",candidateRouter)
 
 app.use("",(req,res)=>{
     return res.status(404).json({msg:"no route found"})
