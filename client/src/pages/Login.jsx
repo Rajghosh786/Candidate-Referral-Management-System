@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-
+import Spinner from "../components/Spinner"
 const Login = () => {
   const [loginUser, setLoginUser] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
