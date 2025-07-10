@@ -55,7 +55,7 @@ useEffect(() => {
 
   try {
     const token = localStorage.getItem("token");
-    await axios.patch(`http://localhost:1305/candidate/${id}/status`, 
+    await axios.patch(`${apiUrl}/candidate/${id}/status`, 
       { status: newStatus },
       { headers: { Authorization: `Bearer ${token}` } }
     );

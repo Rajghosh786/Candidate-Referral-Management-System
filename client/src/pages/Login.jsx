@@ -5,6 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
   const [loginUser, setLoginUser] = useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
   const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useContext(AuthContext);
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -15,6 +16,7 @@ const Login = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setIsLoading(true)
     try {
       const login = await axios.post(`${apiUrl}/user/login`, loginUser);
       if (login.data.msg === 'Login successful') {
@@ -33,10 +35,12 @@ const Login = () => {
           email: login.data.email,
           phone: login.data.phone,
         });
+        setIsLoading(false)
         navigate('/dashboard');
       }
     } catch (error) {
-      console.log(error.message);
+      setIsLoading(false)
+      alert(error.message);
     }
   }
 
@@ -83,12 +87,15 @@ const Login = () => {
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          <button
+        {isLoading ? (
+        <Spinner />
+      ) : (<button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition"
           >
             Login
           </button>
+          )}
         </form>
       </div>
     </div>
